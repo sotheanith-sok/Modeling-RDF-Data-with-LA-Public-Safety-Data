@@ -1,17 +1,19 @@
+import csv
 import sys
 
 import PyQt5
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon  # For import of ico file
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit, \
+    QTableView
 from pathlib import Path
 
 
 class RdfApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(QSize(800, 500))
+        self.setMinimumSize(QSize(1250, 500))
         self.setWindowTitle('CECS 571 - Project 2')
         self.setWindowIcon(QIcon("CSULB.ico"))
 
@@ -42,34 +44,34 @@ class RdfApp(QWidget):
         self.uploadButton.clicked.connect(self.closeIt)
         layout.addWidget(self.uploadButton, 2, 2)
 
-        self.LeftTextEdit = QTextEdit()
+        # Left Table
+        self.model = QtGui.QStandardItemModel(self)
+        self.tableView = QTableView(self)
+        self.tableView.setModel(self.model)
+        self.tableView.horizontalHeader().setStretchLastSection(True)
+        layout.addWidget(self.tableView, 1, 0)
+
+        # Right Table
         self.RightTextEdit = QTextEdit()
-        layout.addWidget(self.LeftTextEdit, 1, 0)
         layout.addWidget(self.RightTextEdit, 1, 1)
 
         self.setLayout(layout)
 
     def clickMethod(self):
-        print('Clicked Pyqt button.')
         home_dir = str(Path.home())
-        fname = QFileDialog.getOpenFileName(self, 'Open file', home_dir, filter="csv(*.csv)")
-        self.fileLine.setText(fname[0])
+        fileName = QFileDialog.getOpenFileName(self, 'Open file', home_dir, filter="csv(*.csv)")
         self.fileLine.setStyleSheet("color: black;font-size:12pt")
-        if fname[0]:
-            f = open(fname[0], 'r')
-            with f:
-                data = f.read()
-                self.LeftTextEdit.setText(data)
+        self.fileLine.setText(fileName[0])
+        with open(fileName[0], "r") as fileInput:
+            for row in csv.reader(fileInput):
+                items = [
+                    QtGui.QStandardItem(field)
+                    for field in row
+                ]
+                self.model.appendRow(items)
 
     def closeIt(self):
         self.close()
-
-    @staticmethod
-    def centerWidgetOnScreen(self, widget):
-        centerPoint = PyQt6.QtGui.QScreen.availableGeometry(QtWidgets.QApplication.primaryScreen()).center()
-        fg = widget.frameGeometry()
-        fg.moveCenter(centerPoint)
-        widget.move(fg.topLeft())
 
 
 # Main

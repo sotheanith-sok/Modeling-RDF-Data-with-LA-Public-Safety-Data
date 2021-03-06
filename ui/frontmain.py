@@ -1,13 +1,13 @@
 import csv
 import sys
+from pathlib import Path
 
-import PyQt5
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtGui
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon, QStandardItemModel  # For import of ico file
+from PyQt5.QtGui import QIcon, QStandardItemModel
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit, \
     QTableView
-from pathlib import Path
+
 
 class RdfApp(QWidget):
     def __init__(self):

@@ -24,7 +24,7 @@ class RdfApp(QWidget):
         self.fileLine.setText('Enter csv file...')
         self.fileLine.setStyleSheet("color: gray;font-size:12pt")
         self.fileLine.setReadOnly(True)
-        layout.addWidget(self.fileLine, 0, 0)
+        layout.addWidget(self.fileLine, 0, 0, 1, 2)
 
         # File Input Button
         self.uploadButton = QPushButton('Upload', self)
@@ -53,6 +53,8 @@ class RdfApp(QWidget):
         print('Clicked Pyqt button.')
         home_dir = str(Path.home())
         fname = QFileDialog.getOpenFileName(self, 'Open file', home_dir, filter="csv(*.csv)")
+        self.fileLine.setText(fname[0])
+        self.fileLine.setStyleSheet("color: black;font-size:12pt")
         if fname[0]:
             f = open(fname[0], 'r')
             with f:

@@ -8,6 +8,8 @@ from PyQt5.QtGui import QIcon, QStandardItemModel
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit, \
     QTableView
 
+from rdflib import Graph, Literal, RDF, URIRef, Namespace # basic RDF handling
+
 
 class RdfApp(QWidget):
     def __init__(self):

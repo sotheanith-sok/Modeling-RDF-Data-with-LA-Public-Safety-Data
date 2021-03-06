@@ -1,10 +1,10 @@
 import sys
 
-import PyQt6
-from PyQt6 import QtWidgets, QtGui
-from PyQt6.QtCore import QSize
-from PyQt6.QtGui import QIcon  # For import of ico file
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit
+import PyQt5
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QIcon  # For import of ico file
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit
 from pathlib import Path
 
 

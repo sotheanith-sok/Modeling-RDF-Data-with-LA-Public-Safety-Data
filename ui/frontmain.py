@@ -4,11 +4,10 @@ import sys
 import PyQt5
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon  # For import of ico file
+from PyQt5.QtGui import QIcon, QStandardItemModel  # For import of ico file
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QGridLayout, QFileDialog, QTextEdit, \
     QTableView
 from pathlib import Path
-
 
 class RdfApp(QWidget):
     def __init__(self):
@@ -45,7 +44,7 @@ class RdfApp(QWidget):
         layout.addWidget(self.uploadButton, 2, 2)
 
         # Left Table
-        self.model = QtGui.QStandardItemModel(self)
+        self.model = QStandardItemModel(self)
         self.tableView = QTableView(self)
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
@@ -58,6 +57,7 @@ class RdfApp(QWidget):
         self.setLayout(layout)
 
     def clickMethod(self):
+        self.model.clear()
         home_dir = str(Path.home())
         fileName = QFileDialog.getOpenFileName(self, 'Open file', home_dir, filter="csv(*.csv)")
         self.fileLine.setStyleSheet("color: black;font-size:12pt")

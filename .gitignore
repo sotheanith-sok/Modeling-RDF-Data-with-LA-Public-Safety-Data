@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 .vscode/settings.json
 output.txt
+output_arrest_reports.txt
+output_crime_reports.txt

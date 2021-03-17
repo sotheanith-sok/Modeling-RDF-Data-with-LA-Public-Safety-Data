@@ -1,10 +1,12 @@
 import csv
-from rdflib import Graph, Namespace, RDF, RDFS, Literal
+from rdflib import Graph, Namespace, Literal
+from rdflib.namespace import RDFS, RDF, XSD
+
 from contextlib import closing
 import requests
 
 
-class RDF:
+class RDF_Graph:
     def __init__(self, base_url = "https://data.lacity.org/",  arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8" ):
 
         # Initalize URL
@@ -122,6 +124,212 @@ class RDF:
         """
         print("INFO: Add base structure to graph...")
 
+        #Defines 'Report' class and its associated proprties
+        graph.add((namespace['Report'], RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasID'], RDF.type, RDF.Property))
+        graph.add((namespace['hasPerson'], RDF.type, RDF.Property))
+        graph.add((namespace['hasTime'], RDF.type, RDF.Property))
+        graph.add((namespace['hasDate'], RDF.type, RDF.Property))
+        graph.add((namespace['hasLocation'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasID'], RDFS.domain, namespace['Report']))
+        graph.add((namespace['hasPerson'], RDFS.domain, namespace['Report']))
+        graph.add((namespace['hasTime'], RDFS.domain, namespace['Report']))
+        graph.add((namespace['hasDate'], RDFS.domain, namespace['Report']))
+        graph.add((namespace['hasLocation'], RDFS.domain, namespace['Report']))
+
+        graph.add((namespace['hasID'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasPerson'], RDFS.range, namespace['Person']))
+        graph.add((namespace['hasTime'], RDFS.range, XSD.time))
+        graph.add((namespace['hasDate'], RDFS.range, XSD.date))
+        graph.add((namespace['hasLocation'], RDFS.range, namespace['Location']))
+
+        #Define 'Person' class and its associated properties
+        graph.add((namespace['Person'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasAge'], RDF.type, RDF.Property))
+        graph.add((namespace['hasSex'], RDF.type, RDF.Property))
+        graph.add((namespace['hasDescendent'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasAge'],RDFS.domain, namespace['Person']))
+        graph.add((namespace['hasSex'],RDFS.domain, namespace['Person']))
+        graph.add((namespace['hasDescendent'],RDFS.domain, namespace['Person']))
+
+        graph.add((namespace['hasAge'],RDFS.range, XSD.integer))
+        graph.add((namespace['hasSex'],RDFS.range,XSD.string))
+        graph.add((namespace['hasDescendent'],RDFS.range, XSD.string))
+
+        #Define 'Location' class and its associated properties
+        graph.add((namespace['Location'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasReportingDistrictNumber'], RDF.type, RDF.Property))
+        graph.add((namespace['hasAreaID'], RDF.type, RDF.Property))
+        graph.add((namespace['hasAreaName'], RDF.type, RDF.Property))
+        graph.add((namespace['hasAddress'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrossStreet'], RDF.type, RDF.Property))
+        graph.add((namespace['hasLatitude'], RDF.type, RDF.Property))
+        graph.add((namespace['hasLongtitude'], RDF.type, RDF.Property))
+        
+        graph.add((namespace['hasReportingDistrictNumber'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasAreaID'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasAreaName'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasAddress'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasCrossStreet'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasLatitude'], RDFS.domain, namespace['Location']))
+        graph.add((namespace['hasLongtitude'], RDFS.domain, namespace['Location']))
+
+        graph.add((namespace['hasReportingDistrictNumber'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasAreaID'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasAreaName'], RDFS.range, XSD.string))
+        graph.add((namespace['hasAddress'], RDFS.range, XSD.string))
+        graph.add((namespace['hasCrossStreet'], RDFS.range, XSD.string))
+        graph.add((namespace['hasLatitude'], RDFS.range, XSD.double))
+        graph.add((namespace['hasLongtitude'], RDFS.range, XSD.double))
+
+        #Define "ArrestReport" class and its associated properties
+        graph.add((namespace['ArrestReport'], RDFS.subClassOf, namespace['Report']))
+
+        graph.add((namespace['hasCharge'], RDF.type, RDF.Property))
+        graph.add((namespace['hasBooking'], RDF.type, RDF.Property))
+        graph.add((namespace['hasDispositionDescription'], RDF.type, RDF.Property))
+        graph.add((namespace['hasReporType'], RDF.type, RDF.Property))
+        graph.add((namespace['hasArrestType'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasCharge'], RDFS.domain, namespace['ArrestReport']))
+        graph.add((namespace['hasBooking'], RDFS.domain, namespace['ArrestReport']))
+        graph.add((namespace['hasDispositionDescription'], RDFS.domain, namespace['ArrestReport']))
+        graph.add((namespace['hasReporType'], RDFS.domain, namespace['ArrestReport']))
+        graph.add((namespace['hasArrestType'], RDFS.domain, namespace['ArrestReport']))
+
+        graph.add((namespace['hasCharge'], RDFS.range, namespace['Charge']))
+        graph.add((namespace['hasBooking'], RDFS.range, namespace['Booking']))
+        graph.add((namespace['hasDispositionDescription'], RDFS.range, XSD.string))
+        graph.add((namespace['hasReporType'], RDFS.range, XSD.string))
+        graph.add((namespace['hasArrestType'], RDFS.range, XSD.string))
+
+        #Define "Charge" class and its associated properties
+        graph.add((namespace['Charge'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasChargeGroupCode'], RDF.type, RDF.Property))
+        graph.add((namespace['hasChargeGroupDescription'], RDF.type, RDF.Property))
+        graph.add((namespace['hasChargeCode'], RDF.type, RDF.Property))
+        graph.add((namespace['hasChargeDescription'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasChargeGroupCode'], RDFS.domain, namespace['Charge']))
+        graph.add((namespace['hasChargeGroupDescription'], RDFS.domain, namespace['Charge']))
+        graph.add((namespace['hasChargeCode'], RDFS.domain, namespace['Charge']))
+        graph.add((namespace['hasChargeDescription'], RDFS.domain, namespace['Charge']))
+
+        graph.add((namespace['hasChargeGroupCode'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasChargeGroupDescription'], RDFS.range, XSD.string))
+        graph.add((namespace['hasChargeCode'], RDFS.range, XSD.string))
+        graph.add((namespace['hasChargeDescription'], RDFS.range, XSD.string))
+
+        #Define "Booking" class and its associated properties
+        graph.add((namespace['Booking'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasBookingDate'], RDF.type, RDF.Property))
+        graph.add((namespace['hasBookingTime'], RDF.type, RDF.Property))
+        graph.add((namespace['hasBookingLocation'], RDF.type, RDF.Property))
+        graph.add((namespace['hasBookingCode'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasBookingDate'], RDFS.domain, namespace['Booking']))
+        graph.add((namespace['hasBookingTime'], RDFS.domain, namespace['Booking']))
+        graph.add((namespace['hasBookingLocation'], RDFS.domain, namespace['Booking']))
+        graph.add((namespace['hasBookingCode'], RDFS.domain, namespace['Booking']))
+
+        graph.add((namespace['hasBookingDate'], RDFS.range, XSD.date))
+        graph.add((namespace['hasBookingTime'], RDFS.range, XSD.time))
+        graph.add((namespace['hasBookingLocation'], RDFS.range, XSD.string))
+        graph.add((namespace['hasBookingCode'], RDFS.range, XSD.integer))
+
+        #Define "CrimeReport" class and its associated properties
+        graph.add((namespace['CrimeReport'], RDFS.subClassOf, namespace['Report']))
+
+        graph.add((namespace['hasDateReported'], RDF.type, RDF.Property))
+        graph.add((namespace['hasMocodes'], RDF.type, RDF.Property))
+        graph.add((namespace['hasPart1-2'], RDF.type, RDF.Property))
+        graph.add((namespace['hasPremise'], RDF.type, RDF.Property))
+        graph.add((namespace['hasWeapon'], RDF.type, RDF.Property))
+        graph.add((namespace['hasStatus'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrime'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasDateReported'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasMocodes'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasPart1-2'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasPremise'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasWeapon'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasStatus'], RDFS.domain, namespace['CrimeReport']))
+        graph.add((namespace['hasCrime'], RDFS.domain, namespace['CrimeReport']))
+
+        graph.add((namespace['hasDateReported'], RDFS.range, XSD.date))
+        graph.add((namespace['hasMocodes'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasPart1-2'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasPremise'], RDFS.range, namespace['Premise']))
+        graph.add((namespace['hasWeapon'], RDFS.range, namespace['Weapon']))
+        graph.add((namespace['hasStatus'], RDFS.range, namespace['Status']))
+        graph.add((namespace['hasCrime'], RDFS.range, namespace['Crime']))
+
+        #Define "Crime" class and its property
+        graph.add((namespace['Crime'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasCrimeCommittedDescription'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrimeCommitted'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrimeCommitted1'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrimeCommitted2'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrimeCommitted3'], RDF.type, RDF.Property))
+        graph.add((namespace['hasCrimeCommitted4'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasCrimeCommittedDescription'], RDFS.domain, namespace['Crime']))
+        graph.add((namespace['hasCrimeCommitted'], RDFS.domain, namespace['Crime']))
+        graph.add((namespace['hasCrimeCommitted1'], RDFS.domain, namespace['Crime']))
+        graph.add((namespace['hasCrimeCommitted2'], RDFS.domain, namespace['Crime']))
+        graph.add((namespace['hasCrimeCommitted3'], RDFS.domain, namespace['Crime']))
+        graph.add((namespace['hasCrimeCommitted4'], RDFS.domain, namespace['Crime']))
+
+        graph.add((namespace['hasCrimeCommittedDescription'], RDFS.range, XSD.string))
+        graph.add((namespace['hasCrimeCommitted'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasCrimeCommitted1'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasCrimeCommitted2'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasCrimeCommitted3'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasCrimeCommitted4'], RDFS.range, XSD.integer))
+
+        #Define 'Premise' class and its properties
+        graph.add((namespace['Premise'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasPremiseCode'], RDF.type, RDF.Property))
+        graph.add((namespace['hasPremiseDescription'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasPremiseCode'], RDFS.domain, namespace['Premise']))
+        graph.add((namespace['hasPremiseDescription'], RDFS.domain, namespace['Premise']))
+
+        graph.add((namespace['hasPremiseCode'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasPremiseDescription'], RDFS.range, XSD.string))
+
+        #Define 'Weapon' class and its properties
+        graph.add((namespace['Weapon'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasWeaponUsedCode'], RDF.type, RDF.Property))
+        graph.add((namespace['hasWeaponDescription'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasWeaponUsedCode'], RDFS.domain, namespace['Weapon']))
+        graph.add((namespace['hasWeaponDescription'], RDFS.domain, namespace['Weapon']))
+
+        graph.add((namespace['hasWeaponUsedCode'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasWeaponDescription'], RDFS.range, XSD.string))
+
+        #Define 'Status' class and its properties
+        graph.add((namespace['Status'],RDF.type, RDFS.Class))
+
+        graph.add((namespace['hasStatusCode'], RDF.type, RDF.Property))
+        graph.add((namespace['hasStatusDescription'], RDF.type, RDF.Property))
+
+        graph.add((namespace['hasStatusCode'], RDFS.domain, namespace['Status']))
+        graph.add((namespace['hasStatusDescription'], RDFS.domain, namespace['Status']))
+
+        graph.add((namespace['hasStatusCode'], RDFS.range, XSD.integer))
+        graph.add((namespace['hasStatusDescription'], RDFS.range, XSD.string))
         
         return graph
 

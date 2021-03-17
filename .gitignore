@@ -131,3 +131,4 @@ dmypy.json
 output.txt
 output_arrest_reports.txt
 output_crime_reports.txt
+*.rdf

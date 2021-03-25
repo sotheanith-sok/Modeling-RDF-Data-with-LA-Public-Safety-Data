@@ -4,36 +4,39 @@ from rdflib.namespace import RDFS, RDF, XSD
 
 from contextlib import closing
 import requests
-
+import datetime
 
 class RDF_Graph:
+
+
     def __init__(self, base_url = "https://data.lacity.org/",  arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8" ):
 
         # Initalize URL
         self.base_url=base_url
         self.arrest_reports_url = arrest_reports_url
         self.crime_reports_url = crime_reports_url
-        
+
         # Initialize rdf graph and namespace
         self.graph = Graph()
         self.namespace = Namespace(base_url)
 
         #Get datasets
         self.arrest_reports_dataset = self._get_dataset(self.arrest_reports_url)
-        self.crime_reports_dataset = self._get_dataset(self.crime_reports_url)
+        # self.crime_reports_dataset = self._get_dataset(self.crime_reports_url)
 
         #Add base structure to the graph
         self.graph = self._add_base_structures_to_graph(self.graph,self.namespace)
 
         #Process and add arrest reports dataset to the graph
-        self.arrest_reports_dataset = self._processing_arrest_reports_dataset(self.arrest_reports_dataset)
+        # self.arrest_reports_dataset = self._processing_arrest_reports_dataset(self.arrest_reports_dataset)
         self.graph = self._add_arrest_reports_dataset_to_graph(self.arrest_reports_dataset, self.graph,self.namespace)
 
         #Process and add crime reports dataset to the graph
-        self.crime_reports_dataset = self._processing_crime_reports_dataset(self.crime_reports_dataset)
-        self.graph = self._add_crime_reports_dataset_to_graph(self.crime_reports_dataset, self.graph,self.namespace)
+        # self.crime_reports_dataset = self._processing_crime_reports_dataset(self.crime_reports_dataset)
+        # self.graph = self._add_crime_reports_dataset_to_graph(self.crime_reports_dataset, self.graph,self.namespace)
 
-
+    def wtfman(self): 
+        return 
     def _validate_url(self, url):
         """Validate the URL to ensure that it is accessible. 
 
@@ -53,13 +56,13 @@ class RDF_Graph:
 
     
     def _get_dataset(self, url):
-        """Downalod dataset and decode them as json
+        """Downalod dataset and decode them as csv
 
         Args:
             url (string): URL to download resources
 
         Returns:
-            [string]: dataset formatted as json
+            [string]: dataset formatted as csv
         """
         isAvailable = self._validate_url(url)
 
@@ -344,6 +347,30 @@ class RDF_Graph:
             [string]: a CSV contains arrest reports with well-formatted datapoints
         """
         print("INFO: Processing arrest reports dataset...")
+        arrest_keys = ["ReportID", "ReportType", "ArrestDate", "Time", "AreaID", "AreaName", "ReportingDistrictNumber",
+                       "Age", "SexCode", "DescendentCode", "ChargeGroupCode", "ChargeGroupDescription", "ArrestTypeCode", "Charge", 
+                       "ChargeDescription", "DispositionDescription", "Location", "CrossStreet", "LAT", "LON", "Address", 
+                       "BookingDate", "BookingTime", "BookingLocation", "BookingLocationCode"]
+        for i in range(len(arrest_keys)): 
+           arrest_reports_dataset[0][i] = arrest_keys[i]
+        count = 0; 
+        firstline = True
+        for row in arrest_reports_dataset: 
+            # index 2 and 21
+            if firstline: #skip first line 
+                firstline = False
+                continue
+            else: 
+                # print(row[2], "\n")
+                # print(row[21], "\n")
+                # print(row)
+                arrest_reports_dataset[2][count] = self.formatDate(row[2])
+                if(arrest_reports_dataset[2][count] != ""): 
+                    arrest_reports_dataset[21][count] = self.formatDate(row[21])
+                print(row)
+                if count == 5: 
+                    break
+                count += 1
         
         return arrest_reports_dataset
 
@@ -360,7 +387,28 @@ class RDF_Graph:
             [Graph]: an RDF graph contains data from the arrest report dataset
         """
         print("INFO: Add arrests dataset to graph...")
+        # my instance for arrest report for first line\
+        number_report = len(list(graph.subject_objects(predicate=namepsace["hasID"])))
+        graph.add((namespace["report" + str(number_report)], RDF.type, namespace["ArrestReport"]))
+        graph.add((namespace["report" + str(number_report)], namespace["hasID"], Literal(arrest_reports_dataset[1][0], datatype=XSD.integer)))
+        peopleAge = set(graph.subjects(predicate = namespace["hasAge"], object=Literal(arrest_reports_dataset[1][7], datatype=XSD.integer)))
+        peopleSex = set(graph.subjects(predicate = namespace["hasSex"], object=Literal(arrest_reports_dataset[1][8], datatype=XSD.string)))
+        peopleDecendent = set(graph.subjects(predicate = namespace["hasDescendent"], object=Literal(arrest_reports_dataset[1][9], datatype=XSD.string)))
+        person = list(peopleAge & peopleSex & peopleDecendent)
+        # give all the triples with age
 
+        number_person = len(list(graph.subject_objects(predicate=namespace["hasAge"])))
+        if(len(person) == 0): 
+            # no person
+            graph.add((namespace["Person" + str(number_person)], RDF.type, namespace["Person"]))
+            graph.add((namespace["Person" + str(number_person)], namespace["hasAge"], Literal(arrest_reports_dataset[1][7], datatype=XSD.integer)))
+            graph.add((namespace["Person" + str(numberPerson)], namespace["hasSex"], Literal(arrest_reports_dataset[1][8], datatype=XSD.string)))
+            graph.add((namespace["Person" + str(numberPerson)], namespace["hasDescendent"], Literal(arrest_reports_dataset[1][9], datatype=XSD.string)))
+            person = namespace["Person" + str(numberPerson)]
+        else: 
+            person = person[0]
+        graph.add((namespace["report1"], namespace["hasPerson"], person))
+        print(person)
         return graph
 
 
@@ -374,7 +422,6 @@ class RDF_Graph:
             [string]: a CSV contains crime reports with well-formatted datapoints
         """
         print("INFO: Processing crime reports dataset...")
-        
         return crime_reports_dataset
 
 
@@ -390,6 +437,30 @@ class RDF_Graph:
             [Graph]: an RDF graph contains data from the crime report dataset
         """
         print("INFO: Add crime reports dataset to graph...")
-
+        
         return graph
 
+    def formatDate(self, date): 
+        """Format the date from M/D/YYYY HH:MM:SS to YYYY-MM-DD
+
+        Args:
+            date variable in M/D/YYYY HH:MM:SS format
+
+        Returns:
+            [String]: a date string with proper format
+        """
+   
+        dateFormat = date.split('T')#[0].split('/')
+        # print(dateFormat)
+        # day = dateFormat[1]
+        # month = dateFormat[0]
+        # year = dateFormat[2]
+        # if(len(day) < 2):
+        #     day = "0" + day
+        # if(len(month) < 2):
+        #     month = "0" + month
+        # return year + "-" + month + "-" + day
+        return dateFormat[0]
+
+
+g = RDF_Graph()

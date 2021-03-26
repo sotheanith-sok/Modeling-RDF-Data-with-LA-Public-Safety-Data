@@ -4,11 +4,8 @@ from rdflib.namespace import RDFS, RDF, XSD
 
 from contextlib import closing
 import requests
-import datetime
 
 class RDF_Graph:
-
-
     def __init__(self, base_url = "https://data.lacity.org/",  arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8" ):
 
         # Initalize URL
@@ -35,8 +32,7 @@ class RDF_Graph:
         self.crime_reports_dataset = self._processing_crime_reports_dataset(self.crime_reports_dataset)
         self.graph = self._add_crime_reports_dataset_to_graph(self.crime_reports_dataset, self.graph,self.namespace)
 
-    def wtfman(self): 
-        return 
+  
     def _validate_url(self, url):
         """Validate the URL to ensure that it is accessible. 
 
@@ -73,6 +69,7 @@ class RDF_Graph:
                 dataset = csv.reader(decoded_dataset, delimiter=',')
                 return list(dataset) 
                 
+  
     def export(self, destination=None, format="pretty-xml"):
         """Export RDF graph as a string or a file. Set destination to export as a file
 
@@ -487,5 +484,4 @@ class RDF_Graph:
             [Graph]: an RDF graph contains data from the crime report dataset
         """
         print("INFO: Add crime reports dataset to graph...")
-        
         return graph

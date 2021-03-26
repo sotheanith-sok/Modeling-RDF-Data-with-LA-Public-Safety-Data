@@ -54,7 +54,3 @@ while (not done):
     #Clear terminal to prevent overcrowded 
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
-
-
-

@@ -2,17 +2,17 @@
  <img width="150" height="146" src="https://user-images.githubusercontent.com/13907836/51081445-7d0d9300-16a4-11e9-8e4d-6ccad8359bf8.png">
 </p>
 
-<h1 align="center">Building RDF Data with LA Public Safety Data</h1>	
+<h1 align="center">Modeling RDF Data with LA Public Safety Data</h1>	
 
 ## Description
-A demonstration of the process of creating semantic web data with RDF, RDFS, and publicly available datasets provided by LA city.  
+A demonstration of the process of creating semantic web data with RDF and publicly available datasets provided by LA city.  
 
 ## Quick Links
  ### Soure Codes
- - [Main](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
- - [RDF Graph](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
- - [Pip Requirements](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
- - [Windows Standalone Executable](https://github.com/sotheanith/RDFa-Converter/blob/main/output/main.exe)
+ - [Main (main.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
+ - [RDF Graph (rdf.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
+ - [Pip Requirements (requirements.txt)](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
+ - [Windows Standalone Executable (main.exe)](https://github.com/sotheanith/RDFa-Converter/blob/main/output/main.exe)
  ### Documentations
  - [Project Description](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
  - [Presentation](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Presentation.pdf)

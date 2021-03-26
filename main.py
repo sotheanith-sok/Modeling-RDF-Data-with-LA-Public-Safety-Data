@@ -1,4 +1,4 @@
-from Backend.rdf import RDF_Graph
+from src.rdf import RDF_Graph
 import os
 
 #Variables

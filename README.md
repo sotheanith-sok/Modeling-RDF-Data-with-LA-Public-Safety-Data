@@ -19,11 +19,11 @@ A demonstration of the process of creating semantic web data with RDF and public
  - [DataMapping](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/DataMapping.pdf)
  - [RDF Relationship](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Relationship.pdf)
  ### Generated RDF Files
- - [1000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
- - [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
- - [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
- - [50000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
- - [Full Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [1000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/1000.rdf)
+ - [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/5000.rdf)
+ - [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/10000.rdf)
+ - [50000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/50000.rdf)
+ - [Full Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/Full.rdf)
 
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)

@@ -7,6 +7,24 @@
 ## Description
 A demonstration of the process of creating semantic web data with RDF, RDFS, and publicly available datasets provided by LA city.  
 
+## Quick Links
+ ### Soure Codes
+ - [Main](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
+ - [RDF Graph](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
+ - [Pip Requirements](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
+ - [Windows Standalone Executable](https://github.com/sotheanith/RDFa-Converter/blob/main/output/main.exe)
+ ### Documentations
+ - [Project Description](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [Presentation](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Presentation.pdf)
+ - [DataMapping](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/DataMapping.pdf)
+ - [RDF Relationship](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Relationship.pdf)
+ ### Generated RDF Files
+ - [1000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [50000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+ - [Full Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
+
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
 - [Crime-Data-from-2020-to-Present](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
@@ -22,24 +40,6 @@ A demonstration of the process of creating semantic web data with RDF, RDFS, and
   - Email: christopher.vargas@student.csulb.edu 
   - Github: https://github.com/ctopher-vargas
 
-## Quick Links
-### Soure Codes
-- [Main](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
-- [RDF Graph](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
-- [Pip Requirements](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
-- [Windows Standalone Executable](https://github.com/sotheanith/RDFa-Converter/blob/main/output/main.exe)
-### Documentations
-- [Project Description](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-- [Presentation](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Presentation.pdf)
-- [DataMapping](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/DataMapping.pdf)
-- [RDF Relationship](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Relationship.pdf)
-### Generated RDF Files
-- [1000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-- [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-- [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-- [50000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-- [Full Data](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
-
 ## Requirements 
 - [Python](https://www.python.org/)
 - [Numpy](https://numpy.org/devdocs/release/1.20.1-notes.html)
@@ -49,7 +49,7 @@ A demonstration of the process of creating semantic web data with RDF, RDFS, and
 
 
 ## Sample RDF File
-```rdf
+```XML
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
   xmlns:ns1="https://data.lacity.org/"

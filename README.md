@@ -12,7 +12,7 @@ A demonstration of the process of creating semantic web data with RDF and public
  - [Main (main.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
  - [RDF Graph (rdf.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
  - [Pip Requirements (requirements.txt)](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
- - [Windows Standalone Executable (main.exe)](https://github.com/sotheanith/RDFa-Converter/blob/main/output/main.exe)
+ - [Windows Standalone Executable (main.exe)](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/main.exe)
  ### Documentations
  - [Project Description](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
  - [Presentation](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Presentation.pdf)

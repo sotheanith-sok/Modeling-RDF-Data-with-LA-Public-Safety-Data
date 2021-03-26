@@ -53,13 +53,13 @@ class RDF_Graph:
 
     
     def _get_dataset(self, url):
-        """Downalod dataset and decode them as json
+        """Downalod dataset and decode them as csv
 
         Args:
             url (string): URL to download resources
 
         Returns:
-            [string]: dataset formatted as json
+            [string]: dataset formatted as csv
         """
         isAvailable = self._validate_url(url)
 

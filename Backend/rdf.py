@@ -7,7 +7,7 @@ from contextlib import closing
 import requests
 
 class RDF_Graph:
-    def __init__(self, base_url = "https://data.lacity.org/",  arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8" ):
+    def __init__(self, base_url = "https://data.lacity.org/",  arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8", max_dataset_size = 10000 ):
 
         # Initalize URL
         self.base_url=base_url
@@ -19,18 +19,16 @@ class RDF_Graph:
         self.namespace = Namespace(base_url)
 
         #Get datasets
-        self.arrest_reports_dataset = self._get_dataset(self.arrest_reports_url)
-        self.crime_reports_dataset = self._get_dataset(self.crime_reports_url)
+        self.arrest_reports_dataset = self._get_dataset(self.arrest_reports_url, max_dataset_size)
+        self.crime_reports_dataset = self._get_dataset(self.crime_reports_url, max_dataset_size)
 
         #Add base structure to the graph
-        self.graph = self._add_base_structures_to_graph(self.graph,self.namespace)
+        # self.graph = self._add_base_structures_to_graph(self.graph,self.namespace)
 
-        #Process and add arrest reports dataset to the graph
-        self.arrest_reports_dataset = self._processing_arrest_reports_dataset(self.arrest_reports_dataset)
+        #Add arrest reports dataset to the graph
         self.graph = self._add_arrest_reports_dataset_to_graph(self.arrest_reports_dataset, self.graph,self.namespace)
 
-        #Process and add crime reports dataset to the graph
-        self.crime_reports_dataset = self._processing_crime_reports_dataset(self.crime_reports_dataset)
+        #Add crime reports dataset to the graph
         self.graph = self._add_crime_reports_dataset_to_graph(self.crime_reports_dataset, self.graph,self.namespace)
 
   
@@ -52,11 +50,12 @@ class RDF_Graph:
             return False
 
     
-    def _get_dataset(self, url):
+    def _get_dataset(self, url, max_dataset_size):
         """Downalod dataset and decode them as csv
 
         Args:
             url (string): URL to download resources
+            max_dataset_size (int): maximum number of data to curl from a given dataset
 
         Returns:
             [string]: dataset formatted as csv
@@ -65,7 +64,7 @@ class RDF_Graph:
 
         if isAvailable:
             print("INFO: Downloading dataset from \""+url+"\"...")
-            with closing(requests.get(url+".csv?$limit=99999999",stream=True)) as response:
+            with closing(requests.get(url+".csv?$limit="+str(max_dataset_size),stream=True)) as response:
                 decoded_dataset = [line.decode('utf-8') for line in response.iter_lines()]
                 dataset = csv.reader(decoded_dataset, delimiter=',')
                 return list(dataset) 
@@ -335,19 +334,6 @@ class RDF_Graph:
         return graph
 
 
-    def _processing_arrest_reports_dataset(self, arrest_reports_dataset):
-        """Process all data in arrest reports such that all datapoints match formal specifications
-
-        Args:
-            arrest_reports_dataset (string): a CSV contains arrest reports
-
-        Returns:
-            [string]: a CSV contains arrest reports with well-formatted datapoints
-        """
-        print("INFO: Processing arrest reports dataset...")
-        return arrest_reports_dataset
-
-
     def _add_arrest_reports_dataset_to_graph(self, arrest_reports_dataset, graph, namespace):
         """Add arrest reports dataset to the RDF graph
 
@@ -359,18 +345,18 @@ class RDF_Graph:
         Returns:
             [Graph]: an RDF graph contains data from the arrest report dataset
         """
-        print("INFO: Add arrests dataset to graph...")
+        print("INFO: Add arrest reports dataset to graph...")
      
         for i in range(1, len(arrest_reports_dataset)): 
             number_report = len(list(graph.subject_objects(predicate=namespace["hasID"])))
             # add base arrest report that inherits from the report class
-            graph.add((namespace["report" + str(number_report)], RDF.type, namespace["ArrestReport"]))
-            graph.add((namespace["report" + str(number_report)], namespace["hasID"], Literal(arrest_reports_dataset[i][0], datatype=XSD.integer)))
-            graph.add((namespace["report" + str(number_report)], namespace["hasDate"], Literal(arrest_reports_dataset[i][2], datatype=XSD.date)))
-            graph.add((namespace["report" + str(number_report)], namespace["hasTime"], Literal(arrest_reports_dataset[i][3], datatype=XSD.time)))
-            graph.add((namespace["report" + str(number_report)], namespace["hasReporType"], Literal(arrest_reports_dataset[i][1], datatype=XSD.string)))
-            graph.add((namespace["report" + str(number_report)], namespace["hasArrestType"], Literal(arrest_reports_dataset[i][12], datatype=XSD.string)))
-            graph.add((namespace["report" + str(number_report)], namespace["hasDispositionDescription"], Literal(arrest_reports_dataset[i][15], datatype=XSD.string)))
+            graph.add((namespace["Report" + str(number_report)], RDF.type, namespace["ArrestReport"]))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasID"], Literal(arrest_reports_dataset[i][0], datatype=XSD.integer)))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasDate"], Literal(arrest_reports_dataset[i][2], datatype=XSD.date)))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasTime"], Literal(arrest_reports_dataset[i][3], datatype=XSD.time)))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasReporType"], Literal(arrest_reports_dataset[i][1], datatype=XSD.string)))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasArrestType"], Literal(arrest_reports_dataset[i][12], datatype=XSD.string)))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasDispositionDescription"], Literal(arrest_reports_dataset[i][15], datatype=XSD.string)))
 
             # set up the people class
             people_age = set(graph.subjects(predicate = namespace["hasAge"], object=Literal(arrest_reports_dataset[i][7], datatype=XSD.integer)))
@@ -452,25 +438,12 @@ class RDF_Graph:
                 charge = charge[0]
 
             #add to report
-            graph.add((namespace["report" + str(number_report)], namespace["hasPerson"], person))
-            graph.add((namespace["report" + str(number_report)], namespace["hasLocation"], location))
-            graph.add((namespace["report" + str(number_report)], namespace["hasBooking"], booking))
-            graph.add((namespace["report" + str(number_report)], namespace["hasCharge"], charge))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasPerson"], person))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasLocation"], location))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasBooking"], booking))
+            graph.add((namespace["Report" + str(number_report)], namespace["hasCharge"], charge))
        
         return graph
-
-
-    def _processing_crime_reports_dataset(self, crime_reports_dataset):
-        """Process all data in crime reports such that all datapoints match formal specifications
-
-        Args:
-            crime_reports_dataset (string): a CSV contains crime reports
-
-        Returns:
-            [string]: a CSV contains crime reports with well-formatted datapoints
-        """
-        print("INFO: Processing crime reports dataset...")
-        return crime_reports_dataset
 
 
     def _add_crime_reports_dataset_to_graph(self, crime_reports_dataset, graph, namespace):

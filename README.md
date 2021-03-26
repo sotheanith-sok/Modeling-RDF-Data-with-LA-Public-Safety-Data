@@ -33,7 +33,7 @@ A demonstration of the process of creating semantic web data with RDF and public
 - Sotheanith Sok 
   - Email: sotheanith.sok@student.csulb.edu 
   - Github: https://github.com/sotheanith
-- LauroCabral 
+- Lauro Cabral 
   - Email: lauro.cabral@student.csulb.edu 
   - Github: https://github.com/Lauro199471
 - Christopher Vargas 

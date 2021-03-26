@@ -15,7 +15,7 @@ sucess_option_3 = False
 while (not done):
 
     #Print instructions
-    print("\u0332".join("RDF Generator"))
+    print("Modeling RDF Data with LA Public Safety Data")
 
     print(" This program will: \n     \u2022 Download datasets for Arrest Reports and Crime Reports \n     \u2022 Generate RDF graph from both reports \n     \u2022 Save RDF graph to a file")
 

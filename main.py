@@ -5,7 +5,7 @@ import os
 filename = os.path.abspath("./output.rdf")
 arrest_reports_url = "https://data.lacity.org/resource/amvf-fr72"
 crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8"
-max_dataset_size = 1000
+max_dataset_size = 500
 done = False
 sucess_option_1 = False
 sucess_option_2 = False

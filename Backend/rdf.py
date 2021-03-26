@@ -467,19 +467,62 @@ class RDF_Graph:
             'StatusDescription', 'CrimCommited1', 'CrimCommited2',
             'CrimCommited3', 'CrimCommited4', 'location',
             'CrossStreet', 'lat', 'lon']
+
         df = pd.DataFrame (crime_reports_dataset[1:], columns=colNames)
         dr_no_list = df['ReportID']
+
+        """Report ID"""
+
+        dr_no_list = df['ReportID']
+        for index, value in dr_no_list.items():
+            graph.add((namespace["Report" + str(index)], RDF.type, namespace["CrimeReport"]))
+            graph.add((namespace["Report" + str(index)], namespace["hasID"], Literal(value, datatype=XSD.integer)))
+
+        """Person"""
 
         # Person
         age_list = df['Age']
         sex_list = df['SexCode']
         descendent_list = df['DescendentCode']
 
+        for i in range(0,len(age_list)):
+            people_age = set(graph.subjects(predicate = namespace["hasAge"], object=Literal(age_list[i], datatype=XSD.integer)))
+            people_sex = set(graph.subjects(predicate = namespace["hasSex"], object=Literal(sex_list[i], datatype=XSD.string)))
+            people_decendent = set(graph.subjects(predicate = namespace["hasDescendent"], object=Literal(descendent_list[i], datatype=XSD.string)))
+            
+            # returns the number of persons for the naming scheme
+            number_person = len(list(graph.subject_objects(predicate=namespace["hasAge"])))
+            
+            # give all the triples with age, sex, and decendent
+            person = list(people_age & people_sex & people_decendent)
+            
+            if(len(person) == 0): 
+                # add to Person
+                graph.add((namespace["Person" + str(number_person)], RDF.type, namespace["Person"]))
+                graph.add((namespace["Person" + str(number_person)], namespace["hasAge"], Literal(age_list[i], datatype=XSD.integer)))
+                graph.add((namespace["Person" + str(number_person)], namespace["hasSex"], Literal(sex_list[i], datatype=XSD.string)))
+                graph.add((namespace["Person" + str(number_person)], namespace["hasDescendent"], Literal(descendent_list[i], datatype=XSD.string)))
+                person = namespace["Person" + str(number_person)]
+            else: 
+                person = person[0];
+            graph.add((namespace["Report" + str(i)], namespace["hasPerson"], person));
+
+        """Time OCC"""
+
         # Time Occured
         time_list = df['TimeOCC']
 
+        for index, value in time_list.items():
+            graph.add((namespace["Report" + str(index)], namespace["hasTime"], Literal(value, datatype=XSD.time)))
+
+        """Date OCC"""
+
         # Date Occured
         date_list = df['DateOCC']
+        for index, value in date_list.items():
+            graph.add((namespace["Report" + str(index)], namespace["hasDate"], Literal(value, datatype=XSD.date)))
+
+        """Location"""
 
         # Location
         reportDist = df['ReportDistrict']
@@ -490,26 +533,141 @@ class RDF_Graph:
         latList = df['lat']
         lonList = df['lon']
 
-        # Date Reported
-        mocodesList = df['Mocodes']
+        for i in range(0,len(reportDist)):
+            reportingDisct = set(graph.subjects(predicate = namespace["hasReportingDisctrictNumber"], object=Literal(reportDist[i], datatype=XSD.integer)))
+            areaID = set(graph.subjects(predicate = namespace["hasAreaID"], object=Literal(areaList[i], datatype=XSD.string)))
+            areName = set(graph.subjects(predicate = namespace["hasAreaName"], object=Literal(areaNameList[i], datatype=XSD.string)))
+            addy = set(graph.subjects(predicate = namespace["hasAddress"], object=Literal(locationList[i], datatype=XSD.string)))
+            crossStreet = set(graph.subjects(predicate = namespace["hasCrossStreet"], object=Literal(crossStreetList[i], datatype=XSD.string)))
+            lati = set(graph.subjects(predicate = namespace["hasLatitude"], object=Literal(latList[i], datatype=XSD.double)))
+            longi = set(graph.subjects(predicate = namespace["hasLongitude"], object=Literal(lonList[i], datatype=XSD.double)))
+
+            # returns the number of location for the naming scheme
+            number_location = len(list(graph.subject_objects(predicate=namespace["hasAreaID"])))
+            
+            # give all the triples with age, sex, and decendent
+            loctions = list(reportingDisct & areaID & areName & addy & crossStreet & lati & longi)
+            
+            if(len(loctions) == 0): 
+                # add to Location
+                graph.add((namespace["Location" + str(number_location)], RDF.type, namespace["Location"]))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasReportingDisctrictNumber"], Literal(reportDist[i], datatype=XSD.integer)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasAreaID"], Literal(areaList[i], datatype=XSD.string)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasAreaName"], Literal(areaNameList[i], datatype=XSD.string)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasAddress"], Literal(locationList[i], datatype=XSD.string)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasCrossStreet"], Literal(crossStreetList[i], datatype=XSD.string)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasLatitude"], Literal(latList[i], datatype=XSD.double)))
+                graph.add((namespace["Location" + str(number_location)], namespace["hasLongitude"], Literal(lonList[i], datatype=XSD.double)))
+                loctions = namespace["Location" + str(number_location)]
+            else: 
+                loctions = loctions[0];
+            graph.add((namespace["Report" + str(i)], namespace["hasLocation"], loctions));
+
+        """Date reported"""
 
         # Date Reported
         date_reported = df['DataReported']
 
+        for index, value in date_reported.items():
+            graph.add((namespace["Report" + str(index)], namespace["hasDateReported"], Literal(value, datatype=XSD.date)))
+
+        """Mocodes"""
+
+        # Date Reported
+        mocodesList = df['Mocodes']
+        for index, value in mocodesList.items():
+            graph.add((namespace["Report" + str(index)], namespace["hasMocodes"], Literal(value, datatype=XSD.string)))
+
+        """
+        Part 1-2"""
+
         # Part 1-2
         part_1_2 = df['Part-1-2']
+
+        for index, value in part_1_2.items():
+            graph.add((namespace["Report" + str(index)], namespace["hasPart1-2"], Literal(value, datatype=XSD.integer)))
+
+        """Premise"""
 
         # Premise
         premiseCodeList = df['PremiseCode']
         premiseDescriptionList = df['PremiseDescription']
 
+        for i in range(0,len(premiseCodeList)):
+            premiseCode = set(graph.subjects(predicate = namespace["hasPremiseCode"], object=Literal(premiseCodeList[i], datatype=XSD.integer)))
+            premiseDesc = set(graph.subjects(predicate = namespace["hasPremiseDescription"], object=Literal(premiseDescriptionList[i], datatype=XSD.string)))
+
+            # returns the number of location for the naming scheme
+            number_premise = len(list(graph.subject_objects(predicate=namespace["hasPremiseCode"])))
+            
+            # give all the triples with age, sex, and decendent
+            premises = list(premiseDesc & premiseCode)
+            
+            if(len(premises) == 0): 
+                # add to Location
+                graph.add((namespace["Premise" + str(number_premise)], RDF.type, namespace["Premise"]))
+                graph.add((namespace["Premise" + str(number_premise)], namespace["hasPremiseCode"], Literal(premiseCodeList[i], datatype=XSD.integer)))
+                graph.add((namespace["Premise" + str(number_premise)], namespace["hasPremiseDescription"], Literal(premiseDescriptionList[i], datatype=XSD.string)))
+                premise = namespace["Premise" + str(number_premise)]
+            else: 
+                premise = premises[0]
+            graph.add((namespace["Report" + str(i)], namespace["hasPremise"], premise))
+
+        """Weapon
+
+        """
+
         # Weapon
         weaponUsedList = df['WeaponCode']
         weaponDescriptionList = df['WeaponDescription']
 
+        for i in range(0,len(weaponUsedList)):
+            weaponCode = set(graph.subjects(predicate = namespace["hasWeaponCode"], object=Literal(weaponUsedList[i], datatype=XSD.integer)))
+            weaponDesc = set(graph.subjects(predicate = namespace["hasWeaponDescription"], object=Literal(weaponDescriptionList[i], datatype=XSD.string)))
+
+            # returns the number of location for the naming scheme
+            number_weapon = len(list(graph.subject_objects(predicate=namespace["hasWeaponCode"])))
+            
+            # give all the triples with age, sex, and decendent
+            weapons = list(weaponDesc & weaponCode)
+            
+            if(len(weapons) == 0): 
+                # add to Location
+                graph.add((namespace["Weapon" + str(number_weapon)], RDF.type, namespace["Weapon"]))
+                graph.add((namespace["Weapon" + str(number_weapon)], namespace["hasWeaponCode"], Literal(premiseCodeList[i], datatype=XSD.integer)))
+                graph.add((namespace["Weapon" + str(number_weapon)], namespace["hasWeaponDescription"], Literal(premiseDescriptionList[i], datatype=XSD.string)))
+                weapons = namespace["Weapon" + str(number_weapon)]
+            else: 
+                weapons = weapons[0]
+            graph.add((namespace["Report" + str(i)], namespace["hasWeapon"], weapons))
+
+        """Status"""
+
         # Status
         statusList = df['Status']
         statusDescriptionList = df['StatusDescription']
+
+        for i in range(0,len(statusList)):
+            statusCode = set(graph.subjects(predicate = namespace["hasStatusCode"], object=Literal(statusList[i], datatype=XSD.integer)))
+            statusDesc = set(graph.subjects(predicate = namespace["hasStatusDescription"], object=Literal(statusDescriptionList[i], datatype=XSD.string)))
+
+            # returns the number of location for the naming scheme
+            number_status = len(list(graph.subject_objects(predicate=namespace["hasStatusCode"])))
+            
+            # give all the triples with age, sex, and decendent
+            status = list(statusDesc & statusCode)
+            
+            if(len(status) == 0): 
+                # add to Location
+                graph.add((namespace["Status" + str(number_status)], RDF.type, namespace["Status"]))
+                graph.add((namespace["Status" + str(number_status)], namespace["hasStatusCode"], Literal(statusList[i], datatype=XSD.integer)))
+                graph.add((namespace["Status" + str(number_status)], namespace["hasStatusDescription"], Literal(statusDescriptionList[i], datatype=XSD.string)))
+                status = namespace["Status" + str(number_status)]
+            else: 
+                status = status[0]
+            graph.add((namespace["Report" + str(i)], namespace["hasStatus"], status))
+
+        """Crimes"""
 
         # Crimes
         CrimCommitedList = df['CrimeCommited']
@@ -519,167 +677,31 @@ class RDF_Graph:
         CrimCommited3List = df['CrimCommited3']
         CrimCommited4List = df['CrimCommited4']
 
-        """Report ID
+        for i in range(0,len(reportDist)):
+            crimeCommitted = set(graph.subjects(predicate = namespace["hasCrimeCommitted"], object=Literal(CrimCommitedList[i], datatype=XSD.integer)))
+            crimeCrimmitedDescription = set(graph.subjects(predicate = namespace["hasCrimeCrimmitedDescription"], object=Literal(CrimeDescriptionList[i], datatype=XSD.string)))
+            crimeCommited1 = set(graph.subjects(predicate = namespace["hasCrimeCommited1"], object=Literal(CrimCommited1List[i], datatype=XSD.integer)))
+            crimeCommited2 = set(graph.subjects(predicate = namespace["hasCrimeCommited2"], object=Literal(CrimCommited2List[i], datatype=XSD.integer)))
+            crimeCommited3 = set(graph.subjects(predicate = namespace["hasCrimeCommited3"], object=Literal(CrimCommited3List[i], datatype=XSD.integer)))
+            crimeCommited4 = set(graph.subjects(predicate = namespace["hasCrimeCommited4"], object=Literal(CrimCommited4List[i], datatype=XSD.integer)))
 
-        """
-
-        for index, value in dr_no_list.items():
-            graph.add((namespace["Report" + str(index)], RDF.type, namespace["CrimeReport"]))
-            graph.add((namespace["Report" + str(index)], namespace["hasID"], Literal(value, datatype=XSD.integer)))
-
-        """Person"""
-
-        for index, value in age_list.items():
-            # graph.add((namespace["Person" + str(index)], RDF.type, namespace["Person"]))
-            graph.add((namespace["Person" + str(index)], namespace["hasAge"], Literal(value, datatype=XSD.integer)))
-            person = namespace["Person" + str(index)]
-            graph.add((namespace["Report" + str(index)], namespace["hasPerson"], person))
-
-        for index, value in sex_list.items():
-            # graph.add((namespace["Person" + str(index)], RDF.type, namespace["Person"]))
-            graph.add((namespace["Person" + str(index)], namespace["hasSex"], Literal(value, datatype=XSD.string)))
-            person = namespace["Person" + str(index)]
-            graph.add((namespace["Report" + str(index)], namespace["hasPerson"], person))
-
-        for index, value in descendent_list.items():
-            # graph.add((namespace["Person" + str(index)], RDF.type, namespace["Person"]))
-            graph.add((namespace["Person" + str(index)], namespace["hasDescendent"], Literal(value, datatype=XSD.string)))
-            person = namespace["Person" + str(index)]
-            graph.add((namespace["Report" + str(index)], namespace["hasPerson"], person))
-
-        """Time OCC"""
-
-        for index, value in time_list.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasTime"], Literal(value, datatype=XSD.time)))
-
-        """Date OCC"""
-
-        for index, value in date_list.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasDate"], Literal(value, datatype=XSD.date)))
-
-        """Location"""
-
-        for index, value in reportDist.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasReportingDisctrictNumber"],
-                Literal(value, datatype=XSD.integer)))
-
-        for index, value in areaList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasAreaID"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in areaNameList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasAreaName"], Literal(value, datatype=XSD.string)))
-
-        for index, value in locationList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasAddress"], Literal(value, datatype=XSD.string)))
-
-        for index, value in crossStreetList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasCrossStreet"], Literal(value, datatype=XSD.string)))
-
-        for index, value in latList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasLatitude"], Literal(value, datatype=XSD.double)))
-
-        for index, value in lonList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasLocation"], namespace["Location" + str(index)]))
-            # graph.add((namespace["Location" + str(index)], RDF.type, namespace["Location"]))
-            graph.add((namespace["Location" + str(index)], namespace["hasLongitude"], Literal(value, datatype=XSD.double)))
-
-        """# Subclass
-        Date reported
-        """
-
-        for index, value in date_reported.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasDateReported"], Literal(value, datatype=XSD.date)))
-
-        """Mocodes"""
-
-        for index, value in mocodesList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasMocodes"], Literal(value, datatype=XSD.string)))
-
-        """Part 1-2"""
-
-        for index, value in part_1_2.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasPart1-2"], Literal(value, datatype=XSD.integer)))
-
-        """Premise"""
-
-        for index, value in premiseCodeList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasPremise"], namespace["Premise" + str(index)]))
-            graph.add((namespace["Premise" + str(index)], RDF.type, namespace["Premise"]))
-            graph.add((namespace["Premise" + str(index)], namespace["hasPremiseCode"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in premiseDescriptionList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasPremise"], namespace["Premise" + str(index)]))
-            graph.add((namespace["Premise" + str(index)], RDF.type, namespace["Premise"]))
-            graph.add((namespace["Premise" + str(index)], namespace["hasPremiseDescription"], Literal(value, datatype=XSD.string)))
-
-        """Weapon
-
-        """
-
-        for index, value in weaponUsedList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasWeapon"], namespace["Weapon" + str(index)]))
-            graph.add((namespace["Weapon" + str(index)], RDF.type, namespace["Weapon"]))
-            graph.add((namespace["Weapon" + str(index)], namespace["hasWeaponCode"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in weaponDescriptionList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasWeapon"], namespace["Weapon" + str(index)]))
-            graph.add((namespace["Weapon" + str(index)], RDF.type, namespace["Weapon"]))
-            graph.add((namespace["Weapon" + str(index)], namespace["hasWeaponDescription"], Literal(value, datatype=XSD.string)))
-
-        """Status"""
-
-        for index, value in statusList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasStatus"], namespace["Status" + str(index)]))
-            graph.add((namespace["Status" + str(index)], RDF.type, namespace["Status"]))
-            graph.add((namespace["Status" + str(index)], namespace["hasStatusCode"], Literal(value, datatype=XSD.string)))
-
-        for index, value in weaponDescriptionList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasStatus"], namespace["Status" + str(index)]))
-            graph.add((namespace["Status" + str(index)], RDF.type, namespace["Status"]))
-            graph.add((namespace["Status" + str(index)], namespace["hasStatusDescription"], Literal(value, datatype=XSD.string)))
-
-        """Crimes"""
-
-        for index, value in CrimCommitedList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCommitted"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in CrimeDescriptionList.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCrimmitedDescription"],
-                Literal(value, datatype=XSD.string)))
-
-        for index, value in CrimCommited1List.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCommited1"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in CrimCommited2List.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCommited2"], Literal(value, datatype=XSD.integer)))
-
-        for index, value in CrimCommited3List.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCommited3"], Literal(value, datatype=XSD.string)))
-
-        for index, value in CrimCommited4List.items():
-            graph.add((namespace["Report" + str(index)], namespace["hasCrime"], namespace["Crime" + str(index)]))
-            graph.add((namespace["Crime" + str(index)], RDF.type, namespace["Crime"]))
-            graph.add((namespace["Crime" + str(index)], namespace["hasCrimeCommited4"], Literal(value, datatype=XSD.string)))
+            # returns the number of location for the naming scheme
+            number_crime_commited = len(list(graph.subject_objects(predicate=namespace["hasCrimeCommitted"])))
+            
+            # give all the triples with age, sex, and decendent
+            crimes = list(crimeCommitted & crimeCrimmitedDescription & crimeCommited1 & crimeCommited2 & crimeCommited3 & crimeCommited4)
+            
+            if(len(crimes) == 0): 
+                # add to Location
+                graph.add((namespace["Crime" + str(number_crime_commited)], RDF.type, namespace["Crime"]))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCommitted"], Literal(CrimCommitedList[i], datatype=XSD.integer)))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCrimmitedDescription"], Literal(CrimeDescriptionList[i], datatype=XSD.string)))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCommited1"], Literal(CrimCommited1List[i], datatype=XSD.integer)))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCommited2"], Literal(CrimCommited2List[i], datatype=XSD.integer)))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCommited3"], Literal(CrimCommited3List[i], datatype=XSD.integer)))
+                graph.add((namespace["Crime" + str(number_crime_commited)], namespace["hasCrimeCommited4"], Literal(CrimCommited4List[i], datatype=XSD.integer)))
+                crimes = namespace["Crime" + str(number_crime_commited)]
+            else: 
+                crimes = crimes[0];
+            graph.add((namespace["Report" + str(i)], namespace["hasCrime"], crimes));
         return graph

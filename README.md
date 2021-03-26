@@ -2,7 +2,7 @@
  <img width="150" height="146" src="https://user-images.githubusercontent.com/13907836/51081445-7d0d9300-16a4-11e9-8e4d-6ccad8359bf8.png">
 </p>
 
-<h1 align="center">Building RDF with LA Public Safety Data</h1>	
+<h1 align="center">Building RDF Data with LA Public Safety Data</h1>	
 
 ## Description
 A demonstration of the process of creating semantic web data with RDF, RDFS, and publicly available datasets provided by LA city.  

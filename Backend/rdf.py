@@ -392,6 +392,7 @@ class RDF_Graph:
         """
         print("INFO: Add crime reports dataset to graph...")
 
+        colNames = ['ReportID', 'DataReported', 'DateOCC', 'TimeOCC', 'Area',
             'AreaName', 'ReportDistrict', 'Part-1-2', 'CrimeCommited',
             'CrimeDescription', 'Mocodes', 'Age', 'SexCode',
             'DescendentCode', 'PremiseCode', 'PremiseDescription',

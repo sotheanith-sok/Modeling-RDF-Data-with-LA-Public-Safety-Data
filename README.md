@@ -23,7 +23,7 @@ A demonstration of the process of creating semantic web data with RDF and public
  - [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/5000.rdf)
  - [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/10000.rdf)
  - [50000 Data](https://drive.google.com/file/d/10IJ_tdZRaOxlw8jtpbvaDO9BAoGkPsWy/view?usp=sharing)
- - [Full Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/Full.rdf)
+ - [Full Data](https://drive.google.com/file/d/18-151SqDLT0KG7abhMGcW-uXt0BKZIaJ/view?usp=sharing)
 
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)

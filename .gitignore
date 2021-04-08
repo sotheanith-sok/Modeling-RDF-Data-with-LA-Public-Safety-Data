@@ -133,3 +133,5 @@ output_arrest_reports.txt
 output_crime_reports.txt
 exec/output.rdf
 output.rdf
+exec/Full.rdf
+exec/50000.rdf

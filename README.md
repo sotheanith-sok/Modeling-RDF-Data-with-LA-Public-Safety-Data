@@ -153,3 +153,6 @@ A demonstration of the process of creating semantic web data with RDF and public
   </ns1:ArrestReport>
 </rdf:RDF>
 ```
+
+## Course
+ - [CECS 571 - Fundamentals of Semantic Web technologies](http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40046)

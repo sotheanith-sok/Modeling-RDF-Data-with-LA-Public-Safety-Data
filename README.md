@@ -19,26 +19,21 @@ A demonstration of the process of creating semantic web data with RDF and public
  - [DataMapping](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/DataMapping.pdf)
  - [RDF Relationship](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Relationship.pdf)
  ### Generated RDF Files
- - [1000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/1000.rdf)
- - [5000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/5000.rdf)
- - [10000 Data](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/10000.rdf)
- - [50000 Data](https://drive.google.com/file/d/10IJ_tdZRaOxlw8jtpbvaDO9BAoGkPsWy/view?usp=sharing)
- - [Full Data](https://drive.google.com/file/d/18-151SqDLT0KG7abhMGcW-uXt0BKZIaJ/view?usp=sharing)
+ - [1000 Data](https://mega.nz/file/GqoilZ7Z#2KKcFKeFqW5XtmR8MMv9iOignMM7Ry24JkkEbUbssQs)
+ - [5000 Data](https://mega.nz/file/TqRjBTpA#IGrluV9DsOay7TCjUBwO5DHHhNcrPfcVHj3jv-reJcs)
+ - [10000 Data](https://mega.nz/file/224mnQxS#aLRKBrrzv-rsRC20Yf4XP9LpUPL3GxiCPFc59F6KRgc)
+ - [50000 Data](https://mega.nz/file/jrIXBJQC#613_Bazji1NXcT7Q6RGmePdwYn2HpNc3kcAarxj76NY)
+ - [100000 Data](https://mega.nz/file/67ohQLoT#89YEoTga8BmyVgB4SUmkvhWYH7ODBqpaUpsyK3daz70)
+ - [Full Data](https://mega.nz/file/KjRxzBgL#wxzlmuCluKd_E9Et5oaPKKZ3FaFEhKwwCArRZfoljkk)
 
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
 - [Crime-Data-from-2020-to-Present](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
 
 ## Authors 
-- Sotheanith Sok 
-  - Email: sotheanith.sok@student.csulb.edu 
-  - Github: https://github.com/sotheanith
-- Lauro Cabral 
-  - Email: lauro.cabral@student.csulb.edu 
-  - Github: https://github.com/Lauro199471
-- Christopher Vargas 
-  - Email: christopher.vargas@student.csulb.edu 
-  - Github: https://github.com/ctopher-vargas
+- [Sotheanith Sok](https://github.com/sotheanith-sok)
+- [Lauro Cabral](https://github.com/Lauro199471)
+- [Christopher Vargas](https://github.com/ctopher-vargas)
 
 ## Requirements 
 - [Python](https://www.python.org/)

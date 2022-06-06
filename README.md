@@ -1,49 +1,47 @@
-<p align="center">
- <img width="150" height="146" src="https://user-images.githubusercontent.com/13907836/51081445-7d0d9300-16a4-11e9-8e4d-6ccad8359bf8.png">
-</p>
+<!-- Readme Start here -->
 
-<h1 align="center">Modeling RDF Data with LA Public Safety Data</h1>	
-
-## Description
-A demonstration of the process of creating semantic web data with RDF and publicly available datasets provided by LA city.  
-
-## Quick Links
- ### Soure Codes
- - [Main (main.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/main.py)
- - [RDF Graph (rdf.py)](https://github.com/sotheanith/RDFa-Converter/blob/main/src/rdf.py)
- - [Pip Requirements (requirements.txt)](https://github.com/sotheanith/RDFa-Converter/blob/main/requirements.txt)
- - [Windows Standalone Executable (main.exe)](https://github.com/sotheanith/RDFa-Converter/blob/main/exec/main.exe)
- ### Documentations
- - [Project Description](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Project%202.pdf)
- - [Presentation](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Presentation.pdf)
- - [DataMapping](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/DataMapping.pdf)
- - [RDF Relationship](https://github.com/sotheanith/RDFa-Converter/blob/main/doc/Relationship.pdf)
- ### Generated RDF Files
- - [1000 Data](https://mega.nz/file/GqoilZ7Z#2KKcFKeFqW5XtmR8MMv9iOignMM7Ry24JkkEbUbssQs)
- - [5000 Data](https://mega.nz/file/TqRjBTpA#IGrluV9DsOay7TCjUBwO5DHHhNcrPfcVHj3jv-reJcs)
- - [10000 Data](https://mega.nz/file/224mnQxS#aLRKBrrzv-rsRC20Yf4XP9LpUPL3GxiCPFc59F6KRgc)
- - [50000 Data](https://mega.nz/file/jrIXBJQC#613_Bazji1NXcT7Q6RGmePdwYn2HpNc3kcAarxj76NY)
- - [100000 Data](https://mega.nz/file/67ohQLoT#89YEoTga8BmyVgB4SUmkvhWYH7ODBqpaUpsyK3daz70)
- - [Full Data](https://mega.nz/file/KjRxzBgL#wxzlmuCluKd_E9Et5oaPKKZ3FaFEhKwwCArRZfoljkk)
-
-## Datasets
-- [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
-- [Crime-Data-from-2020-to-Present](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
-
-## Authors 
-- [Sotheanith Sok](https://github.com/sotheanith-sok)
-- [Lauro Cabral](https://github.com/Lauro199471)
-- [Christopher Vargas](https://github.com/ctopher-vargas)
-
-## Requirements 
-- [Python](https://www.python.org/)
-- [Numpy](https://numpy.org/devdocs/release/1.20.1-notes.html)
-- [Pandas](https://pypi.org/project/pandas/) 
-- [RdfLib](https://rdflib.readthedocs.io/en/stable/)
-- [Requests](https://pypi.org/project/requests/)
+<!-- Load logo from readme/logo.jpg -->
+<div align="center">
+  <img src="readme/logo.jpg" alt="logo" />
+</div>
 
 
-## Sample RDF File
+<!-- Title -->
+<h1 align="center" style="border: none">
+Modeling RDF Data with LA Public Safety Data
+</h1>
+
+
+<!-- Shield IO - very nice icons -->
+<div align="center">
+
+[![Contributors][contributors_shield]][contributors_url]
+[![Forks][forks_shield]][forks_url]
+[![Stargazers][stars_shield]][stars_url]
+[![Issues][issues_shield]][issues_url]
+[![MIT License][license_shield]][license_url]
+[![LinkedIn][linkedin_shield]][linkedin_url]
+
+</div>
+
+
+<!-- Description -->
+A demonstration of the process of creating semantic web data with RDF and publicly available datasets provided by LA city.
+
+## Requirements
+- RDF files
+  - [1000 Data]
+  - [5000 Data]
+  - [10000 Data]
+  - [50000 Data]
+  - [100000 Data]
+  - [Full Data]
+
+## Executable 
+ - [Windows]
+
+
+## Sample Generated RDF File
 ```XML
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
@@ -149,5 +147,83 @@ A demonstration of the process of creating semantic web data with RDF and public
 </rdf:RDF>
 ```
 
+## Datasets
+ - [Arrest Data from 2020 to Present]
+ - [Crime-Data-from-2020-to-Present]
+
+## Documentation
+ - [Objective]
+ - [Data Mapping]
+ - [RDF Relationship]
+ - [Presentation]
+
+<!-- Include your major tools and frameworks -->
+## Built With
+- [Python]
+- [RdfLib]
+
+
+<!-- Collaborators information -->
+## Collaborators
+- [Sotheanith Sok]
+- [Lauro Cabral]
+- [Christopher Vargas]
+
 ## Course
- - [CECS 571 - Fundamentals of Semantic Web technologies](http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40046)
+- [CECS 571 - Fundamentals of Semantic Web technologies]
+
+<!-- License -->
+## License
+This project is licensed under the MIT License - see the [LICENSE.md][license_url] file for details
+
+
+<!-- Shoutout to other projects, plugin, or minor tools -->
+## Acknowledgments
+Special thank to
+- [Best-README-Template] - the readme template.
+
+
+<!-- References -->
+<!-- Shield Icons-->
+[contributors_shield]: https://img.shields.io/github/contributors/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data.svg?style=for-the-badge
+[forks_shield]: https://img.shields.io/github/forks/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data.svg?style=for-the-badge
+[stars_shield]: https://img.shields.io/github/stars/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data.svg?style=for-the-badge
+[issues_shield]: https://img.shields.io/github/issues/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data.svg?style=for-the-badge
+[license_shield]: https://img.shields.io/github/license/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data.svg?style=for-the-badge
+[linkedin_shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+
+<!-- Shield URLs -->
+[contributors_url]: https://github.com/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data/graphs/contributors
+[forks_url]: https://github.com/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data/network/members
+[stars_url]: https://github.com/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data/stargazers
+[issues_url]: https://github.com/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data/issues
+[license_url]: https://github.com/sotheanithsok/Modeling-RDF-Data-with-LA-Public-Safety-Data/blob/master/LICENSE
+[linkedin_url]: https://www.linkedin.com/in/sotheanith-sok-969ab0b3/
+
+<!-- Other links -->
+[Sotheanith Sok]: https://github.com/sotheanithsok
+[Best-README-Template]: https://github.com/othneildrew/Best-README-Template
+
+[1000 Data]: https://mega.nz/file/GqoilZ7Z#2KKcFKeFqW5XtmR8MMv9iOignMM7Ry24JkkEbUbssQs
+[5000 Data]: https://mega.nz/file/TqRjBTpA#IGrluV9DsOay7TCjUBwO5DHHhNcrPfcVHj3jv-reJcs
+[10000 Data]: https://mega.nz/file/224mnQxS#aLRKBrrzv-rsRC20Yf4XP9LpUPL3GxiCPFc59F6KRgc
+[50000 Data]: https://mega.nz/file/jrIXBJQC#613_Bazji1NXcT7Q6RGmePdwYn2HpNc3kcAarxj76NY
+[100000 Data]: https://mega.nz/file/67ohQLoT#89YEoTga8BmyVgB4SUmkvhWYH7ODBqpaUpsyK3daz70
+[Full Data]: https://mega.nz/file/KjRxzBgL#wxzlmuCluKd_E9Et5oaPKKZ3FaFEhKwwCArRZfoljkk
+[Windows]: exec/main.exe
+[Arrest Data from 2020 to Present]: https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72
+[Crime-Data-from-2020-to-Present]: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
+[Objective]: doc/Project%202.pdf
+[Data Mapping]: doc/DataMapping.pdf
+[RDF Relationship]: doc/Relationship.pdf
+[Presentation]: doc/Presentation.pdf 
+[Python]: https://www.python.org/
+[RdfLib]: https://rdflib.readthedocs.io/en/stable/
+[Lauro Cabral]: https://github.com/Lauro199471
+[Christopher Vargas]: https://github.com/ctopher-vargas
+[CECS 571 - Fundamentals of Semantic Web technologies]: http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40046
+
+
+
+
+
